@@ -4,7 +4,7 @@ import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/configuration/ui";
 import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import MatrixEffect from "@/components/MatrixEffect"; // ✅ Import Matrix Effect
+import MatrixEffect from "@/components/chat/MatrixEffect"; // ✅ Import Matrix Effect
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
