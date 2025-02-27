@@ -5,7 +5,7 @@ import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import MatrixEffect from "@/components/chat/MatrixEffect"; // ✅ Import Matrix Effect
-import MusicPlayer from "@/components/MusicPlayer"; // ✅ Import Music Player
+import MusicPlayer from "@/components/chat/MusicPlayer"; // ✅ Import Music Player
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
