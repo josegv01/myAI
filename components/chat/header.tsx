@@ -1,10 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EraserIcon, MenuIcon } from "lucide-react";
+import { EraserIcon, MenuIcon, Play, Pause } from "lucide-react"; // ✅ Import Play & Pause icons
 import Image from "next/image";
 import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
+import { useEffect, useRef, useState } from "react";
 
 export const AILogo = () => (
   <div className="w-12 h-12 relative">
@@ -22,6 +23,39 @@ export default function ChatHeader({
   // Left Button: Opens YouTube with "capybaras" search
   const handleLeftButtonClick = () => {
     window.open("https://www.youtube.com/results?search_query=capybaras", "_blank");
+  };
+
+  // Music Player Logic
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = 0.5; // Set default volume
+      const enableAudio = () => {
+        audio
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((error) => console.log("Autoplay blocked:", error));
+        document.removeEventListener("click", enableAudio); // Remove event after first click
+      };
+      document.addEventListener("click", enableAudio); // Detect user interaction
+    }
+  }, []);
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((error) => console.log("Playback error:", error));
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
   return (
@@ -47,8 +81,17 @@ export default function ChatHeader({
           <p>{CHAT_HEADER}</p>
         </div>
 
-        {/* Right Button (Clear Chat Function) */}
-        <div className="flex-0 w-[100px] flex justify-end items-center">
+        {/* Right Buttons (Music Toggle + Clear Chat) */}
+        <div className="flex-0 w-[160px] flex justify-end items-center gap-2">
+          {/* Music Play/Pause Button */}
+          <Button
+            onClick={toggleMusic}
+            className="w-10 h-10 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full"
+          >
+            {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+          </Button>
+
+          {/* Clear Chat Button */}
           <Button
             onClick={clearMessages}
             className="gap-2 shadow-sm"
@@ -60,6 +103,11 @@ export default function ChatHeader({
           </Button>
         </div>
       </div>
+
+      {/* Hidden Audio Player */}
+      <audio ref={audioRef} loop>
+        <source src="/music/background.mp3" type="audio/mp3" />
+      </audio>
     </div>
   );
 }
