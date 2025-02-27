@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { INITIAL_MESSAGE } from "@/configuration/chat";
-import { INITIAL_MESSAGE2 } from "@/configuration/chat";
-import { WORD_CUTOFF, WORD_BREAK_MESSAGE } from "@/configuration/chat";
+import { INITIAL_MESSAGE, INITIAL_MESSAGE2, WORD_CUTOFF, WORD_BREAK_MESSAGE } from "@/configuration/chat";
 import {
   LoadingIndicator,
   DisplayMessage,
@@ -19,15 +17,21 @@ import {
 } from "@/types";
 
 export default function useApp() {
-  const initialAssistantMessage: DisplayMessage = {
-    role: "assistant",
-    content: INITIAL_MESSAGE,
-    citations: [],
-  };
+  // ✅ Ensure both messages are initialized at the start
+  const initialAssistantMessages: DisplayMessage[] = [
+    {
+      role: "assistant",
+      content: INITIAL_MESSAGE,
+      citations: [],
+    },
+    {
+      role: "assistant",
+      content: INITIAL_MESSAGE2,
+      citations: [],
+    },
+  ];
 
-  const [messages, setMessages] = useState<DisplayMessage[]>([
-    initialAssistantMessage,
-  ]);
+  const [messages, setMessages] = useState<DisplayMessage[]>(initialAssistantMessages);
   const [wordCount, setWordCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [indicatorState, setIndicatorState] = useState<LoadingIndicator[]>([]);
@@ -170,8 +174,6 @@ export default function useApp() {
       setIsLoading(false);
     } else {
       setTimeout(() => {
-        // NOTE: This is a hacky way to show the indicator state only after the user message is added.
-        // TODO: Find a better way to do this.
         setIndicatorState([
           {
             status: "Understanding your message",
@@ -216,7 +218,7 @@ export default function useApp() {
   }, [messages]);
 
   const clearMessages = () => {
-    setMessages([]);
+    setMessages(initialAssistantMessages); // ✅ Reset to initial messages instead of empty
     setWordCount(0);
   };
 
