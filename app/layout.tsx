@@ -4,6 +4,7 @@ import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/configuration/ui";
 import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import MatrixEffect from "@/components/MatrixEffect"; // ✅ Import Matrix Effect
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <MatrixEffect /> {/* ✅ Add Matrix Effect */}
           <ErrorWrapper>{children}</ErrorWrapper>
         </body>
       </TooltipProvider>
