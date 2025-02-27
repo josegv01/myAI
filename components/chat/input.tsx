@@ -59,7 +59,7 @@ export default function ChatInput({
             />
             <Button
               type="submit"
-              className="rounded-full w-10 h-10 p-0 flex items-center justify-center"
+              className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white"
               disabled={input.trim() === "" || isLoading}
             >
               <DollarSign className="w-5 h-5" />
