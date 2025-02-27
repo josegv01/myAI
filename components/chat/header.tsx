@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { EraserIcon, MenuIcon, Play, Pause } from "lucide-react"; // ✅ Import Play & Pause icons
+import { EraserIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
@@ -25,23 +25,27 @@ export default function ChatHeader({
     window.open("https://www.youtube.com/results?search_query=capybaras", "_blank");
   };
 
-  // Music Player Logic
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  // Music Player Logic (Single Instance)
+  const [isPlaying, setIsPlaying] = useState(true); // Start as playing
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = 0.5; // Set default volume
-      const enableAudio = () => {
-        audio
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((error) => console.log("Autoplay blocked:", error));
-        document.removeEventListener("click", enableAudio); // Remove event after first click
-      };
-      document.addEventListener("click", enableAudio); // Detect user interaction
-    }
+    audioRef.current = new Audio("/music/background.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.5;
+
+    // Try to autoplay and handle browser restrictions
+    audioRef.current
+      .play()
+      .catch((error) => console.log("Autoplay blocked, waiting for user interaction:", error));
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   const toggleMusic = () => {
@@ -49,10 +53,7 @@ export default function ChatHeader({
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current
-          .play()
-          .then(() => setIsPlaying(true))
-          .catch((error) => console.log("Playback error:", error));
+        audioRef.current.play().catch((error) => console.log("Playback error:", error));
       }
       setIsPlaying(!isPlaying);
     }
@@ -83,12 +84,12 @@ export default function ChatHeader({
 
         {/* Right Buttons (Music Toggle + Clear Chat) */}
         <div className="flex-0 w-[160px] flex justify-end items-center gap-2">
-          {/* Music Play/Pause Button */}
+          {/* Music Toggle Button */}
           <Button
             onClick={toggleMusic}
-            className="w-10 h-10 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full"
+            className="w-auto px-4 h-10 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full"
           >
-            {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+            {isPlaying ? "MUSIC OFF" : "MUSIC ON"}
           </Button>
 
           {/* Clear Chat Button */}
@@ -103,11 +104,6 @@ export default function ChatHeader({
           </Button>
         </div>
       </div>
-
-      {/* Hidden Audio Player */}
-      <audio ref={audioRef} loop>
-        <source src="/music/background.mp3" type="audio/mp3" />
-      </audio>
     </div>
   );
 }
