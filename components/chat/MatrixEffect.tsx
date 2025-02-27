@@ -29,7 +29,7 @@ const MatrixEffect: React.FC = () => {
 
     const drawMatrix = () => {
       // Fading effect by drawing a semi-transparent black rectangle over the entire canvas
-      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+      ctx.fillStyle = "rgba(255, 255, 255, 0.1)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = "#00FF00"; // Matrix green color
@@ -66,7 +66,7 @@ const MatrixEffect: React.FC = () => {
   return (
     <canvas
       ref={canvasRef}
-      style={{ position: "fixed", top: 0, left: 0, zIndex: -1, backgroundColor: "black" }}
+      style={{ position: "fixed", top: 0, left: 0, zIndex: -1, backgroundColor: "none" }}
     />
   );
 };
