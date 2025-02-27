@@ -1,6 +1,3 @@
-Here's the full updated code with the `DollarSign` icon replacing the `ArrowUp` icon:
-
-```tsx
 "use client";
 
 import { Input } from "@/components/ui/input";
