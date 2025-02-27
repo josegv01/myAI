@@ -5,6 +5,7 @@ import "./globals.css";
 import { ErrorWrapper } from "./parts/error/error-wrapper";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import MatrixEffect from "@/components/chat/MatrixEffect"; // ✅ Import Matrix Effect
+import MusicPlayer from "@/components/MusicPlayer"; // ✅ Import Music Player
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,8 +35,9 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <MatrixEffect /> {/* ✅ Add Matrix Effect */}
+          <MatrixEffect /> {/* ✅ Matrix Effect */}
           <ErrorWrapper>{children}</ErrorWrapper>
+          <MusicPlayer /> {/* ✅ Music Player (Autoplays + Button) */}
         </body>
       </TooltipProvider>
     </html>
