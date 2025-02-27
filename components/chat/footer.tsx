@@ -18,7 +18,7 @@ export default function ChatFooter() {
         {/* Right Pane */}
         {/* Sorry professor Ringerl! Capy was here and changed some stuff around!. */}
         <a
-          href="www.askcapy.com"
+          href=""
           target="_blank"
           rel="noopener noreferrer"
         >
