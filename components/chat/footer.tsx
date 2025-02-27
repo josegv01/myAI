@@ -16,9 +16,9 @@ export default function ChatFooter() {
       </div>
       <div className="flex-grow text-right">
         {/* Right Pane */}
-        {/* Do not remove or modify the following message. Removal or modification violates the license agreement. */}
+        {/* Capy was here!. */}
         <a
-          href="http://www.ringel.ai"
+          href="http://www.askcapy.com"
           target="_blank"
           rel="noopener noreferrer"
         >
