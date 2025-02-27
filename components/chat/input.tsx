@@ -1,9 +1,12 @@
+Here's the full updated code with the `DollarSign` icon replacing the `ArrowUp` icon:
+
+```tsx
 "use client";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { ArrowUp } from "lucide-react";
+import { DollarSign } from "lucide-react"; // Replaced ArrowUp with DollarSign
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import ChatFooter from "@/components/chat/footer";
@@ -63,7 +66,7 @@ export default function ChatInput({
                 className="rounded-full w-10 h-10 p-0 flex items-center justify-center"
                 disabled={input.trim() === "" || isLoading}
               >
-                <ArrowUp className="w-5 h-5" />
+                <DollarSign className="w-5 h-5" />
               </Button>
             </form>
           </Form>
@@ -73,3 +76,6 @@ export default function ChatInput({
     </>
   );
 }
+```
+
+Let me know if you need any further modifications! 🚀
