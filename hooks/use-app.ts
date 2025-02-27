@@ -218,7 +218,7 @@ export default function useApp() {
   }, [messages]);
 
   const clearMessages = () => {
-    setMessages(initialAssistantMessages); // ✅ Reset to initial messages instead of empty
+    setMessages([]);
     setWordCount(0);
   };
 
