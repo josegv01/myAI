@@ -4,13 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause } from "lucide-react";
 
 export default function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(true); // Start as playing
+  const [isPlaying, setIsPlaying] = useState(false); // Start as NOT playing
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = 0.5; // Set volume level
-      audioRef.current.play().catch((error) => console.log("Autoplay blocked:", error)); // Attempt autoplay
+    const audio = audioRef.current;
+    if (audio) {
+      audio.volume = 0.5; // Set volume level
+      const enableAudio = () => {
+        audio
+          .play()
+          .then(() => setIsPlaying(true)) // Update state to playing
+          .catch((error) => console.log("Autoplay blocked:", error));
+        document.removeEventListener("click", enableAudio); // Remove listener after first click
+      };
+      document.addEventListener("click", enableAudio); // Listen for user interaction
     }
   }, []);
 
@@ -19,7 +27,10 @@ export default function MusicPlayer() {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch((error) => console.log("Playback error:", error));
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch((error) => console.log("Playback error:", error));
       }
       setIsPlaying(!isPlaying);
     }
