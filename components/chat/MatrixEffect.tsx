@@ -20,7 +20,7 @@ const MatrixEffect: React.FC = () => {
     window.addEventListener('resize', setCanvasSize);
 
     const fontSize = 20;
-    let columns = Math.floor(canvas.width / fontSize);
+    const columns = Math.floor(canvas.width / fontSize);
     // Create an array of drops for each column
     const drops: number[] = Array(columns).fill(1);
     const dollarSigns = "$";
