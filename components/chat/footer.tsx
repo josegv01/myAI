@@ -16,7 +16,7 @@ export default function ChatFooter() {
       </div>
       <div className="flex-grow text-right">
         {/* Right Pane */}
-        {/* Sorry professor Ringerl! Capy was here and changed some stuff around!. */}
+        {/* Sorry professor Ringel! Capy was here and changed some stuff around!. */}
         <a
           href=""
           target="_blank"
