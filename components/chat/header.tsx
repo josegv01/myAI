@@ -1,7 +1,9 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { EraserIcon } from "lucide-react";
+import { EraserIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
-import { CHAT_HEADER, CLEAR_BUTTON_TEXT } from "@/configuration/ui";
+import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
 
 export const AILogo = () => (
@@ -16,14 +18,36 @@ export default function ChatHeader({
 }: {
   clearMessages: () => void;
 }) {
+  
+  // Left Button: Opens YouTube with "capybaras" search
+  const handleLeftButtonClick = () => {
+    window.open("https://www.youtube.com/results?search_query=capybaras", "_blank");
+  };
+
   return (
     <div className="z-10 flex justify-center items-center fixed top-0 w-full p-5 bg-white shadow-[0_10px_15px_-3px_rgba(255,255,255,1)]">
       <div className="flex w-full">
-        <div className="flex-0 w-[100px]"></div>
+        
+        {/* Left Button (YouTube Search) */}
+        <div className="flex-0 w-[100px] flex justify-start items-center">
+          <Button
+            onClick={handleLeftButtonClick}
+            className="gap-2 shadow-sm"
+            variant="outline"
+            size="sm"
+          >
+            <MenuIcon className="w-4 h-4" />
+            <span>{CAPY_VIDEOS_BUTTON_TEXT}</span>
+          </Button>
+        </div>
+
+        {/* Header Title */}
         <div className="flex-1 flex justify-center items-center gap-2">
           <AILogo />
           <p>{CHAT_HEADER}</p>
         </div>
+
+        {/* Right Button (Clear Chat Function) */}
         <div className="flex-0 w-[100px] flex justify-end items-center">
           <Button
             onClick={clearMessages}
