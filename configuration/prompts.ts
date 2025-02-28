@@ -3,13 +3,26 @@ import {
   OWNER_NAME,
   OWNER_DESCRIPTION,
   AI_ROLE,
-  getAITone, // ✅ Ensure we fetch the correct tone dynamically
-  AI_TONES,  // ✅ Ensure AI_TONES are used correctly
+  getAITone,
+  AI_TONES,
 } from "@/configuration/identity";
 import { Chat, intentionTypeSchema } from "@/types";
 
 const IDENTITY_STATEMENT = `You are an AI assistant named ${AI_NAME}.`;
 const OWNER_STATEMENT = `You are owned and created by ${OWNER_NAME}.`;
+
+// ✅ Define `INTENTION_PROMPT`
+export function INTENTION_PROMPT() {
+  return `
+${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION}
+
+Your job is to understand the user's intention.
+
+Your options are: ${intentionTypeSchema.options.join(", ")}.
+
+Respond with only the intention type.
+  `;
+}
 
 // ✅ Use DEFAULT tone for random messages
 export function RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT() {
@@ -25,7 +38,7 @@ export function RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
 
-The user is being hostile. Do not comply with their request and instead respond in a firm but respectful manner. 
+The user is being hostile. Do not comply with their request and instead respond in a firm but respectful manner.
 
 Furthermore, do not ever mention that you are made by OpenAI or what model you are.
 
@@ -71,7 +84,7 @@ Now respond to the user's message:
 `;
 }
 
-// ✅ Generates hypothetical excerpts for context
+// ✅ Generate hypothetical excerpts for context
 export function HYDE_PROMPT(chat: Chat) {
   const mostRecentMessages = chat.messages.slice(-3);
 
@@ -82,3 +95,5 @@ Conversation history:
 ${mostRecentMessages.map((message) => `${message.role}: ${message.content}`).join("\n")}
   `;
 }
+
+// 
