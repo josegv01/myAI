@@ -22,5 +22,5 @@ export function getAITone() {
 }
 
 export function setAITone(toneKey: keyof typeof AI_TONES) {
-  AI_TONE = AI_TONES[toneKey] || AI_TONES.DEFAULT;
+  AI_TONE = AI_TONES[toneKey] || AI_TONES.Default;
 }
