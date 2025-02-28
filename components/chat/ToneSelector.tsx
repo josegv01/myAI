@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button"; // ✅ Missing import added
+import { Button } from "@/components/ui/button"; 
 import { SlidersHorizontal } from "lucide-react";
 import { setAITone, getAITone, AI_TONES } from "@/configuration/identity";
 import { TONE_BUTTON_TEXT } from "@/configuration/ui";
@@ -12,7 +12,7 @@ export default function ToneSelector() {
   useEffect(() => {
     // Sync with stored tone when component loads
     const currentTone = getAITone();
-    if (currentTone) {
+    if (currentTone && AI_TONES[currentTone]) {
       setSelectedTone(currentTone);
     }
   }, []);
@@ -24,7 +24,7 @@ export default function ToneSelector() {
     window.dispatchEvent(new Event("capyToneChanged"));
   };
 
-  // Display "Select Capy's mood" until a tone is picked
+  // ✅ Fix: Ensure only the tone name is displayed, not its description
   const displayedTone =
     selectedTone === "Default" ? TONE_BUTTON_TEXT : selectedTone;
 
@@ -53,7 +53,7 @@ export default function ToneSelector() {
         </option>
         {Object.keys(AI_TONES).map((tone) => (
           <option key={tone} value={tone}>
-            {tone.replace("_", " ")}
+            {tone}
           </option>
         ))}
       </select>
