@@ -44,4 +44,19 @@ export default function ToneSelector() {
 
       {/* Select Dropdown (Hidden Text) */}
       <select
-        value={selectedTone
+        value={selectedTone}
+        onChange={handleToneChange}
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+      >
+        <option value="Default" disabled>
+          {TONE_BUTTON_TEXT}
+        </option>
+        {Object.keys(AI_TONES).map((tone) => (
+          <option key={tone} value={tone}>
+            {tone.replace("_", " ")}
+          </option>
+        ))}
+      </select>
+    </Button>
+  );
+}
