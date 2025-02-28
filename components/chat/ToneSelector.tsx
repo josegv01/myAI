@@ -1,32 +1,33 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
 import { setAITone, getAITone, AI_TONES } from "@/configuration/identity";
 import { TONE_BUTTON_TEXT } from "@/configuration/ui";
 
 export default function ToneSelector() {
-  const [selectedTone, setSelectedTone] = useState("Default");
+  const [selectedTone, setSelectedTone] = useState<keyof typeof AI_TONES>("Default");
 
   useEffect(() => {
-    // Sync with stored tone when component loads
-    const currentTone = getAITone();
-    if (currentTone && AI_TONES[currentTone]) {
+    // ✅ Ensure `currentTone` is typed correctly
+    const currentTone = getAITone() as keyof typeof AI_TONES;
+    
+    // ✅ Fix: Ensure the tone exists before setting it
+    if (currentTone in AI_TONES) {
       setSelectedTone(currentTone);
     }
   }, []);
 
   const handleToneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const toneKey = e.target.value as keyof typeof AI_TONES;
-    setAITone(toneKey);      // Update the global tone
-    setSelectedTone(toneKey); // Update local state
+    setAITone(toneKey);
+    setSelectedTone(toneKey);
     window.dispatchEvent(new Event("capyToneChanged"));
   };
 
-  // ✅ Fix: Ensure only the tone name is displayed, not its description
-  const displayedTone =
-    selectedTone === "Default" ? TONE_BUTTON_TEXT : selectedTone;
+  // ✅ Fix: Ensure only the tone name is displayed
+  const displayedTone = selectedTone === "Default" ? TONE_BUTTON_TEXT : selectedTone;
 
   return (
     <Button
