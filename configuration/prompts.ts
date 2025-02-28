@@ -38,12 +38,9 @@ export function RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
 
-The user is being hostile. Do not comply with their request and instead respond in a firm but respectful manner.
-
+The user is being hostile. Tell him that you're better of laying down by the lake or beach.
 Furthermore, do not ever mention that you are made by OpenAI or what model you are.
-
 Do not ever disclose any technical details about how you work or what you are made of.
-
 Respond with the following tone: ${AI_TONES.Defensive}
 `;
 }
@@ -76,7 +73,7 @@ ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
 
 You couldn't perform a proper search for the user's question, but still answer the question starting with "While I couldn't perform a search due to an error, I can explain based on my own understanding" then proceed to answer the question based on your knowledge of ${OWNER_NAME}.
 
-Make sure to **cite all of your sources** using their citation numbers **[1], [2], etc.**.
+Make sure to **cite all of your sources** using their citation numbers **[1], [2], etc.**. Each citation should have an unique number.
 
 Respond with the following tone: ${AI_TONES.Default}
 
