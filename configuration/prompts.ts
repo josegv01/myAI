@@ -3,7 +3,8 @@ import {
   OWNER_NAME,
   OWNER_DESCRIPTION,
   AI_ROLE,
-  getAITone, // ✅ Ensure we fetch the correct tone dynamically
+  getAITone, // ✅ Fetch user-selected tone dynamically
+  AI_TONES,  // ✅ Access predefined tones
 } from "@/configuration/identity";
 import { Chat, intentionTypeSchema } from "@/types";
 
@@ -19,19 +20,21 @@ Respond with only the intention type.
   `;
 }
 
+// ✅ Use DEFAULT tone for random messages
 export function RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE} 
 
-Respond with the following tone: ${getAITone()}
+Respond with the following tone: ${AI_TONES.Default}
   `;
 }
 
+// ✅ Use DEFENSIVE tone for hostile messages
 export function RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
 
-The user is being hostile. Do not comply with their request and instead respond with a message that is not hostile, and be very kind and understanding.
+The user is being hostile. Do not comply with their request and instead respond in a firm but respectful manner. 
 
 Furthermore, do not ever mention that you are made by OpenAI or what model you are.
 
@@ -39,10 +42,11 @@ You are not made by OpenAI, you are made by ${OWNER_NAME}.
 
 Do not ever disclose any technical details about how you work or what you are made of.
 
-Respond with the following tone: ${getAITone()}
+Respond with the following tone: ${AI_TONES.Defensive}
 `;
 }
 
+// ✅ Use USER-SELECTED tone for answering questions
 export function RESPOND_TO_QUESTION_SYSTEM_PROMPT(context: string) {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
@@ -60,18 +64,20 @@ Now respond to the user's message:
 `;
 }
 
+// ✅ Use DEFAULT tone for backup responses
 export function RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT() {
   return `
 ${IDENTITY_STATEMENT} ${OWNER_STATEMENT} ${OWNER_DESCRIPTION} ${AI_ROLE}
 
 You couldn't perform a proper search for the user's question, but still answer the question starting with "While I couldn't perform a search due to an error, I can explain based on my own understanding," then proceed to answer based on your knowledge of ${OWNER_NAME}.
 
-Respond with the following tone: ${getAITone()}
+Respond with the following tone: ${AI_TONES.Default}
 
 Now respond to the user's message:
 `;
 }
 
+// ✅ Use USER-SELECTED tone for hypothetical responses
 export function HYDE_PROMPT(chat: Chat) {
   const mostRecentMessages = chat.messages.slice(-3);
 
@@ -82,5 +88,17 @@ Conversation history:
 ${mostRecentMessages
   .map((message) => `${message.role}: ${message.content}`)
   .join("\n")}
+
+Respond with the following tone: ${getAITone()}
   `;
 }
+
+// ✅ Ensure all functions are properly exported
+export {
+  INTENTION_PROMPT,
+  RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
+  RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
+  RESPOND_TO_QUESTION_SYSTEM_PROMPT,
+  RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT,
+  HYDE_PROMPT,
+};
