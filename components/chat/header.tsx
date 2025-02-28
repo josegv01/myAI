@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { EraserIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
-import { useEffect, useRef, useState } from "react";
+import ToneSelector from "@/components/ToneSelector"; // ✅ Import Tone Selector
 
 export const AILogo = () => (
   <div className="w-12 h-12 relative">
@@ -25,19 +26,21 @@ export default function ChatHeader({
     window.open("https://www.youtube.com/results?search_query=capybaras", "_blank");
   };
 
-  // Music Player Logic (Single Instance)
-  const [isPlaying, setIsPlaying] = useState(true); // Start as playing
+  // Music Player Logic (Ensure only one instance exists)
+  const [isPlaying, setIsPlaying] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("/music/background.mp3");
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.5;
-
-    // Try to autoplay and handle browser restrictions
-    audioRef.current
-      .play()
-      .catch((error) => console.log("Autoplay blocked, waiting for user interaction:", error));
+    if (!audioRef.current) {
+      audioRef.current = new Audio("/music/background.mp3");
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+      
+      // Try autoplay, handle browser restrictions
+      audioRef.current.play().catch(() => {
+        console.log("Autoplay blocked. Waiting for user interaction.");
+      });
+    }
 
     return () => {
       if (audioRef.current) {
@@ -76,14 +79,17 @@ export default function ChatHeader({
           </Button>
         </div>
 
-        {/* Header Title */}
-        <div className="flex-1 flex justify-center items-center gap-2">
-          <AILogo />
-          <p>{CHAT_HEADER}</p>
+        {/* Header Title & Tone Selector */}
+        <div className="flex-1 flex flex-col items-center">
+          <div className="flex items-center gap-2">
+            <AILogo />
+            <p className="text-lg font-bold">{CHAT_HEADER}</p>
+          </div>
+          <ToneSelector /> {/* ✅ Adds the dropdown for tone selection */}
         </div>
 
         {/* Right Buttons (Music Toggle + Clear Chat) */}
-        <div className="flex-0 w-[160px] flex justify-end items-center gap-2">
+        <div className="flex-0 w-[180px] flex justify-end items-center gap-2">
           {/* Music Toggle Button */}
           <Button
             onClick={toggleMusic}
