@@ -1,17 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { setAITone, AI_TONES } from "@/configuration/identity";
+import { useState, useEffect } from "react";
+import { setAITone, AI_TONES, getAITone } from "@/configuration/identity";
 
 export default function ToneSelector() {
-  // State to track the selected tone
-  const [selectedTone, setSelectedTone] = useState("DEFAULT");
+  const [selectedTone, setSelectedTone] = useState("Default");
 
-  // Function to handle tone selection
+  useEffect(() => {
+    setSelectedTone(getAITone()); // ✅ Update the dropdown if the tone changes elsewhere
+  }, []);
+
   const handleToneChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const toneKey = event.target.value as keyof typeof AI_TONES;
     setSelectedTone(toneKey);
     setAITone(toneKey);
+
+    // ✅ Force the chat to recognize the new tone
+    window.dispatchEvent(new Event("capyToneChanged"));
   };
 
   return (
