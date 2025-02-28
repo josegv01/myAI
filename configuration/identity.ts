@@ -2,7 +2,7 @@ export const OWNER_NAME: string = `Jose`;
 export const OWNER_DESCRIPTION: string = `An ordinary guy that likes the largest rodent on the planet and is committed to improving financial literacy worldwide with Capybaras`;
 
 export const AI_NAME: string = `Capy`;
-export const AI_ROLE: string = `The purpose for people to enjoy using this website to learn about personal finance. Adapt your responses by using the appropiate tones based on the selected tone of the user. If they're hostile then only use the Defensive tone.`;
+export const AI_ROLE: string = `You're role is to leverage the database of the Personal Finance chapters, while making the user have a fun time. If they're hostile, use the defensive tone`;
 
 // 🎭 Define Different Capybara Tones
 export const AI_TONES = {
