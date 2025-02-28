@@ -2,11 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { EraserIcon, MenuIcon, SlidersHorizontal } from "lucide-react";
+import { EraserIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
-import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT, TONE_BUTTON_TEXT } from "@/configuration/ui";
+import {
+  CHAT_HEADER,
+  CLEAR_BUTTON_TEXT,
+  CAPY_VIDEOS_BUTTON_TEXT,
+} from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
-import ToneSelector from "@/components/chat/ToneSelector"; // ✅ Import Tone Selector
+import ToneSelector from "@/components/chat/ToneSelector";
 
 export const AILogo = () => (
   <div className="w-12 h-12 relative">
@@ -20,28 +24,25 @@ export default function ChatHeader({
 }: {
   clearMessages: () => void;
 }) {
-  
-  // Left Button: Opens YouTube with "capybaras" search
+  const [isPlaying, setIsPlaying] = useState(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Handle the YouTube search button
   const handleLeftButtonClick = () => {
     window.open("https://www.youtube.com/results?search_query=capybaras", "_blank");
   };
 
-  // Music Player Logic (Ensure only one instance exists)
-  const [isPlaying, setIsPlaying] = useState(true);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
+  // Setup the music player on mount
   useEffect(() => {
     if (!audioRef.current) {
       audioRef.current = new Audio("/music/background.mp3");
       audioRef.current.loop = true;
       audioRef.current.volume = 0.5;
-      
-      // Try autoplay, handle browser restrictions
+
       audioRef.current.play().catch(() => {
         console.log("Autoplay blocked. Waiting for user interaction.");
       });
     }
-
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -51,12 +52,15 @@ export default function ChatHeader({
     };
   }, []);
 
+  // Toggle music on/off
   const toggleMusic = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch((error) => console.log("Playback error:", error));
+        audioRef.current.play().catch((error) =>
+          console.log("Playback error:", error)
+        );
       }
       setIsPlaying(!isPlaying);
     }
@@ -66,7 +70,7 @@ export default function ChatHeader({
     <div className="z-10 flex justify-center items-center fixed top-0 w-full p-5 bg-white shadow-[0_10px_15px_-3px_rgba(255,255,255,1)]">
       <div className="flex w-full">
         
-        {/* Left Section (Capy Videos Button & Tone Selector) */}
+        {/* Left Section (Capy Videos + Tone Selector) */}
         <div className="flex-0 flex items-center gap-2">
           {/* Capy Videos Button */}
           <Button
@@ -79,11 +83,8 @@ export default function ChatHeader({
             <span>{CAPY_VIDEOS_BUTTON_TEXT}</span>
           </Button>
 
-          {/* Tone Selector - Positioned Slightly to the Right */}
-          <Button className="gap-2 shadow-sm" variant="outline" size="sm">
-            <SlidersHorizontal className="w-4 h-4" />
-            <ToneSelector />
-          </Button>
+          {/* Tone Selector (Styled like a button) */}
+          <ToneSelector />
         </div>
 
         {/* Header Title */}
@@ -94,7 +95,7 @@ export default function ChatHeader({
 
         {/* Right Buttons (Music Toggle + Clear Chat) */}
         <div className="flex-0 flex justify-end items-center gap-2">
-          {/* Music Toggle Button */}
+          {/* Music Toggle */}
           <Button
             onClick={toggleMusic}
             className="w-auto px-4 h-10 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white rounded-full"
@@ -102,7 +103,7 @@ export default function ChatHeader({
             {isPlaying ? "MUSIC OFF" : "MUSIC ON"}
           </Button>
 
-          {/* Clear Chat Button */}
+          {/* Clear Chat */}
           <Button
             onClick={clearMessages}
             className="gap-2 shadow-sm"
