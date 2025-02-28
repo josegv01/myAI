@@ -92,13 +92,3 @@ ${mostRecentMessages
 Respond with the following tone: ${getAITone()}
   `;
 }
-
-// ✅ Ensure all functions are properly exported
-export {
-  INTENTION_PROMPT,
-  RESPOND_TO_RANDOM_MESSAGE_SYSTEM_PROMPT,
-  RESPOND_TO_HOSTILE_MESSAGE_SYSTEM_PROMPT,
-  RESPOND_TO_QUESTION_SYSTEM_PROMPT,
-  RESPOND_TO_QUESTION_BACKUP_SYSTEM_PROMPT,
-  HYDE_PROMPT,
-};
