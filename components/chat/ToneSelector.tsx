@@ -1,13 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { setAITone, AI_TONES, getAITone } from "@/configuration/identity";
+import { Button } from "@/components/ui/button";
+import { MenuIcon } from "lucide-react";
+import { setAITone, getAITone, AI_TONES } from "@/configuration/identity";
 
 export default function ToneSelector() {
   const [selectedTone, setSelectedTone] = useState("Default");
 
   useEffect(() => {
-    setSelectedTone(getAITone()); // ✅ Update the dropdown if the tone changes elsewhere
+    setSelectedTone(getAITone()); // ✅ Keep UI in sync with stored tone
   }, []);
 
   const handleToneChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -15,24 +17,26 @@ export default function ToneSelector() {
     setSelectedTone(toneKey);
     setAITone(toneKey);
 
-    // ✅ Force the chat to recognize the new tone
+    // ✅ Trigger a UI update for the chat system
     window.dispatchEvent(new Event("capyToneChanged"));
   };
 
   return (
-    <div className="flex items-center space-x-2">
-      <label className="text-sm font-semibold">Capy’s Mood:</label>
-      <select
-        value={selectedTone}
-        onChange={handleToneChange}
-        className="border rounded-md px-2 py-1"
-      >
-        {Object.keys(AI_TONES).map((tone) => (
-          <option key={tone} value={tone}>
-            {tone.replace("_", " ")}
-          </option>
-        ))}
-      </select>
+    <div className="flex justify-center items-center">
+      <Button className="gap-2 shadow-sm" variant="outline" size="sm">
+        <MenuIcon className="w-4 h-4" />
+        <select
+          value={selectedTone}
+          onChange={handleToneChange}
+          className="bg-transparent border-none outline-none cursor-pointer"
+        >
+          {Object.keys(AI_TONES).map((tone) => (
+            <option key={tone} value={tone} className="text-black">
+              {tone.replace("_", " ")}
+            </option>
+          ))}
+        </select>
+      </Button>
     </div>
   );
 }
