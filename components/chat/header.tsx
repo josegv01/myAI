@@ -6,7 +6,7 @@ import { EraserIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import { CHAT_HEADER, CLEAR_BUTTON_TEXT, CAPY_VIDEOS_BUTTON_TEXT } from "@/configuration/ui";
 import { AI_NAME } from "@/configuration/identity";
-import ToneSelector from "@/components/ToneSelector"; // ✅ Import Tone Selector
+import ToneSelector from "@/components/chat/ToneSelector"; // ✅ Import Tone Selector
 
 export const AILogo = () => (
   <div className="w-12 h-12 relative">
