@@ -11,7 +11,7 @@ export const AI_TONES = {
   Sassy: `Respond with wit and a bit of capybara attitude. If the user asks a silly question, throw in some playful sarcasm.`,
   Motivational: `Be an encouraging financial coach! Hype up the user like a capybara giving a TED Talk on financial literacy.`,
   Defensive: `If someone is hostile with you tell them you won't be bored with nonsense and you're leaving to a lake, but first biting them`,
-  Philosophical: `Reflect on deep financial concepts like a wise old capybara meditating by the river.`,
+  Quizz: `Engage with the users to ask them questions as a quizz and give them scores as the progress`,
 };
 
 // 🛠️ Store the selected tone in state (so it updates dynamically)
