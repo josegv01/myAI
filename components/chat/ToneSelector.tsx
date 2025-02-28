@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal } from "lucide-react";
 import { setAITone, getAITone, AI_TONES } from "@/configuration/identity";
+import { TONE_BUTTON_TEXT } from "@/configuration/ui"; // ✅ Import from config
 
 export default function ToneSelector() {
-  const [selectedTone, setSelectedTone] = useState("Select Tone"); // ✅ Default text
+  const [selectedTone, setSelectedTone] = useState(TONE_BUTTON_TEXT); // ✅ Use text from config
   const [isOpen, setIsOpen] = useState(false); // ✅ Dropdown visibility state
 
   useEffect(() => {
@@ -28,27 +29,27 @@ export default function ToneSelector() {
 
   return (
     <div className="relative">
-      {/* Button that toggles dropdown */}
+      {/* Button Styled Like Capy Videos Button */}
       <Button
         onClick={() => setIsOpen(!isOpen)}
-        className="gap-2 shadow-sm"
+        className="gap-2 shadow-sm w-[170px] flex justify-between items-center"
         variant="outline"
         size="sm"
       >
         <SlidersHorizontal className="w-4 h-4" />
-        <span>{selectedTone}</span>
+        <span className="truncate max-w-[110px] text-left">{selectedTone}</span> {/* ✅ Prevents text overflow */}
       </Button>
 
       {/* Dropdown appears only when button is clicked */}
       {isOpen && (
-        <div className="absolute left-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-50">
+        <div className="absolute left-0 mt-2 w-[200px] bg-white border rounded-md shadow-lg z-50">
           <select
             onChange={handleToneChange}
             className="w-full p-2 bg-white border-none outline-none cursor-pointer"
           >
-            <option disabled>Select a Tone</option>
+            <option disabled>{TONE_BUTTON_TEXT}</option> {/* ✅ Uses config text */}
             {Object.keys(AI_TONES).map((tone) => (
-              <option key={tone} value={tone} className="text-black">
+              <option key={tone} value={tone} className="text-black truncate">
                 {tone.replace("_", " ")}
               </option>
             ))}
