@@ -10,7 +10,7 @@ export default function ToneSelector() {
   const [selectedTone, setSelectedTone] = useState("Default");
 
   useEffect(() => {
-    // Sync local state with the stored tone on mount
+    // Sync with stored tone when component loads
     const currentTone = getAITone();
     if (currentTone) {
       setSelectedTone(currentTone);
@@ -24,8 +24,7 @@ export default function ToneSelector() {
     window.dispatchEvent(new Event("capyToneChanged"));
   };
 
-  // If user hasn't selected anything or is "Default," show TONE_BUTTON_TEXT
-  // Otherwise show the actual tone (e.g., "Formal", "Sassy")
+  // Display "Select Capy's mood" until a tone is picked
   const displayedTone =
     selectedTone === "Default" ? TONE_BUTTON_TEXT : selectedTone;
 
@@ -33,39 +32,10 @@ export default function ToneSelector() {
     <Button
       variant="outline"
       size="sm"
-      className="gap-2 shadow-sm w-[180px] relative"
+      className="gap-2 shadow-sm w-[180px] flex justify-between items-center relative"
     >
       {/* Icon */}
       <SlidersHorizontal className="w-4 h-4" />
 
-      {/* 
-        1) Absolutely-positioned label that shows the selected tone 
-        2) Ensures no overlap with the select 
-      */}
-      <span className="absolute left-[2.2rem] text-ellipsis overflow-hidden whitespace-nowrap max-w-[7rem]">
-        {displayedTone}
-      </span>
-
-      {/*
-        The <select> is transparent in the button,
-        so we hide its text on the button but still show it in the dropdown.
-        textShadow trick ensures text is visible in the dropdown, but invisible in the button.
-      */}
-      <select
-        value={selectedTone}
-        onChange={handleToneChange}
-        className="bg-transparent text-transparent border-none outline-none cursor-pointer w-full"
-        style={{ textShadow: "0 0 0 #000" }} 
-      >
-        <option value="Default" disabled>
-          {TONE_BUTTON_TEXT}
-        </option>
-        {Object.keys(AI_TONES).map((tone) => (
-          <option key={tone} value={tone}>
-            {tone.replace("_", " ")}
-          </option>
-        ))}
-      </select>
-    </Button>
-  );
-}
+      {/* Selected Tone Display */}
+      <span className="absolute left-[2.2rem] text-ellipsis overflow-hidden whitespace-nowrap ma
