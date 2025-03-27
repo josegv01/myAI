@@ -7,7 +7,7 @@ export default function ChatFooter() {
       <div className="flex-grow text-left">
         {/* Left Pane */}
         <Link href="/terms" className="hover:underline">
-          Boring Legal Stuff
+          Terms of Service
         </Link>
       </div>
       <div className="flex-grow text-center">
@@ -16,13 +16,13 @@ export default function ChatFooter() {
       </div>
       <div className="flex-grow text-right">
         {/* Right Pane */}
-        {/* Sorry professor Ringel! Capy was here and changed some stuff around!. */}
+        {/* Do not remove or modify the following message. Removal or modification violates the license agreement. */}
         <a
-          href=""
+          href="http://www.ringel.ai"
           target="_blank"
           rel="noopener noreferrer"
         >
-          powered by one very smart capybara
+          powered by ringel.AI
         </a>
       </div>
     </div>
